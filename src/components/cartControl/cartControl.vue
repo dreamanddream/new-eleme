@@ -25,20 +25,31 @@
         type: Object
       }
     },
+    //  mounted() {
+    //  this.$nextTick(() => {
+    //   this.ss();
+    //  });
+    // },
     methods: {
+      // ss() {
+      //   console.log('aaa');
+      //   console.log(this.food);
+      // },
       addCart(event) {
         // event._constructed属于什么？？？？
         if (!event._constructed) {
           // 去掉自带click事件的点击
           return;
         }
-        // 在父组件中传递给子组件的food对象包括count
+        // 在父组件中传递给子组件的food对象，如果没有count就添加count属性
+        // 自己在最开始弄错了一个问题，将selectFood和food弄混了
         if (!this.food.count) {
           Vue.set(this.food, 'count', 1);
         } else {
           this.food.count++;
         }
 //        event.srcElement.outerHTML
+// event.target表示<span class="iconfont icon-jia cart-add"></span>这个dom元素
         this.$emit('increment', event.target); // 子组件通过 $emit触发父组件的方法 increment   还
       },
       decreaseCart(event) {

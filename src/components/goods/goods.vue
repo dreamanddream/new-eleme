@@ -18,6 +18,7 @@
           <h1 class="title">{{item.name}}</h1>
           <ul>
             <!-- 双重循环渲染 -->
+            <!-- 点击获取当前项food -->
             <li v-for="food in item.foods" class="food-item" @click="selectFood(food, $event)">
               <div class="icon">
                 <!-- 图片 -->
@@ -34,6 +35,7 @@
                 </div>
                 <div class="cartControl-wrapper">
                   <!-- 点击按钮实现数量的增加减少 -->
+                  <!-- increment 事件通过子组件传递 -->
                   <cartControl :food="food" @increment="incrementTotal"></cartControl>
                 </div>
               </div>
@@ -43,6 +45,7 @@
       </ul>
     </div>
     <div>
+      <!-- 购物车内容 -->
       <shopCart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
                 :min-price="seller.minPrice" ref="shopCart"></shopCart>
                 <!-- 计算属性中的selectedFood -->
@@ -112,12 +115,16 @@
         let foods = [];
         // good是一个数组对象，good参数相当于每个数组中每个对象元素，在good中又有foods数组对象，food相当于foods数组对象元素中每个对象元素
         this.goods.forEach((good) => {
+          // console.log(good.foods);
+          // good.foods是good对象中的foods数组
           good.foods.forEach((food) => {
+            // count来自于cartControl
             if (food.count) {
               foods.push(food);
             }
           });
         });
+        console.log(foods);
         return foods;
       }
     },
@@ -181,7 +188,9 @@
         // ？？？？.show()是什么用法？？？
         this.$refs.food.show();
       },
+      // ？？？？
       incrementTotal(target) {
+        console.log('target' + target);
         this.$refs.shopCart.drop(target);
       }
     },
